@@ -1,17 +1,24 @@
+// declare library dotenv
+require("dotenv").config();
+
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
-require("dotenv").config();
+
+// sefl-defined function declaration
+const configViewEngine = require("./config/viewEngine");
+const webRoutes = require("./routes/web");
+
 const app = express();
 const port = process.env.PORT || 3001;
 
 //config template engine
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+configViewEngine(app);
 
 app.use(morgan("combined"));
-app.get("/", (req, res) => res.send("Hello World!!!"));
-app.get("/tientai", (req, res) => res.render("index.ejs"));
+
+app.use("/d19", webRoutes);
+
 app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port} `)
+  console.log(`App listening at http://localhost:${port} `)
 );
